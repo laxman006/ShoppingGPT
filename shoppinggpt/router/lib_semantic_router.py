@@ -1,4 +1,3 @@
-from typing import List, Dict
 import numpy as np
 from semantic_router import Route, RouteLayer
 from semantic_router.encoders.tfidf import TfidfEncoder

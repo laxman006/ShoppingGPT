@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-from dotenv import load_dotenv
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.memory import ConversationBufferMemory
-from shoppinggpt.router.lib_semantic_router import (
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from shoppinggpt.router.semantic_router import (
     SemanticRouter,
     PRODUCT_ROUTE_NAME,
     CHITCHAT_ROUTE_NAME
@@ -12,7 +13,8 @@ from shoppinggpt.chain import create_chitchat_chain
 from shoppinggpt.agent import ShoppingAgent
 
 # Load environment variables
-load_dotenv()
+from dotenv import load_dotenv
+import os
 load_dotenv(r"E:\chatbot\ShoppingGPT\.env")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")

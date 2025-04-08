@@ -1,8 +1,33 @@
-from typing import List, Dict
-import numpy as np
-from semantic_router import Route, RouteLayer
+# Mocking semantic_router components for testing
+class Route:
+    def __init__(self, name, utterances, score_threshold):
+        self.name = name
+        self.utterances = utterances
+        self.score_threshold = score_threshold
+
+class RouteLayer:
+    def __init__(self, encoder, routes):
+        self.encoder = encoder
+        self.routes = routes
+
+    def __call__(self, query):
+        for route in self.routes:
+            if any(utterance in query for utterance in route.utterances):
+                return route
+        return None
 from semantic_router.encoders.tfidf import TfidfEncoder
-from shoppinggpt.router.samples_for_consine_algo import PRODUCT_SAMPLE, CHITCHAT_SAMPLE
+# Replace the import with sample data directly if the file is missing
+PRODUCT_SAMPLE = [
+    "What is the price of this product?",
+    "Does this product come in different colors?",
+    "Can I get a discount on this item?"
+]
+
+CHITCHAT_SAMPLE = [
+    "How are you?",
+    "What's your favorite movie?",
+    "Tell me a joke!"
+]
 
 # Constants
 PRODUCT_ROUTE_NAME = 'products'

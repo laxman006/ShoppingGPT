@@ -1,5 +1,7 @@
 name: Deploy to Production
-
+permissions:
+  contents: read
+  deployments: write
 on:
   release:
     types:
@@ -10,6 +12,11 @@ jobs:
     runs-on:
       - self-hosted
       - production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - run: docker compose -f docker-compose.yml --project-name "${{ secrets.STACK_NAME_PRODUCTION }}" build
+      - run: docker compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_PRODUCTION }} up -d
     env:
       ENVIRONMENT: production
       DOMAIN: ${{ secrets.DOMAIN_PRODUCTION }}
@@ -23,8 +30,3 @@ jobs:
       EMAILS_FROM_EMAIL: ${{ secrets.EMAILS_FROM_EMAIL }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - run: docker compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_PRODUCTION }} build
-      - run: docker compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_PRODUCTION }} up -d
